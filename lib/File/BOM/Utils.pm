@@ -158,7 +158,7 @@ sub file_report
 
 	return
 	{
-		length  => $length, # Warning. May be junk. Test type first.
+		length  => $type ? $length : 0,
 		message => $type ? "BOM type $type found" : 'No BOM found',
 		type    => $type,
 		value   => $value,
@@ -214,15 +214,15 @@ sub remove
 sub run
 {
 	my($self, %opt) = @_;
-	my($action)     = lc $self -> action || '';
+	my($action)     = lc($opt{action} || $self -> action || '');
 	my(%sugar) =
 	(
 		a => 'add',
 		r => 'remove',
 		t => 'test',
 	);
-	$action = $sugar{$action} || $action;
-	my(%action)
+	$action     = $sugar{$action} || $action;
+	my(%action) =
 	(
 		add    => 1,
 		remove => 1,
