@@ -30,6 +30,7 @@ my(%params) =
 	PREREQ_PM =>
 	{
 		'File::Slurp'     => 9999.19,
+		'File::Spec'      => 0,
 		'Getopt::Long'    => 0,
 		'Moo'             => 1.007000,
 		'Pod::Usage'      => 0,
@@ -37,6 +38,7 @@ my(%params) =
 		'Test::More'      => 1.001006,
 #		'Test::Pod'       => 1.45, # Make it optional. See xt/author/pod.t
 		'Types::Standard' => 1.000005,
+		'utf8'            => 0,
 		'warnings'        => 0,
 	},
 	VERSION_FROM => 'lib/File/BOM/Utils.pm',

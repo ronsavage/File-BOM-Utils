@@ -42,11 +42,13 @@ $class -> new
 	requires =>
 	{
 		'File::Slurp'     => 9999.19,
+		'File::Spec'      => 0,
 		'Getopt::Long'    => 0,
 		'Moo'             => 1.007000,
 		'Pod::Usage'      => 0,
 		'strict'          => 0,
 		'Types::Standard' => 1.000005,
+		'utf8'            => 0,
 		'warnings'        => 0,
 	},
 	resources =>
