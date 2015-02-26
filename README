@@ -1,4 +1,4 @@
-README file for File::BOM::CheckAddRemove.
+README file for File::BOM::Utils.
 
 See also: Changes and Changelog.ini.
 
@@ -9,8 +9,8 @@ ftp://ftp.info-zip.org/pub/infozip/
 
 1 Installing from a Unix-like distro
 ------------------------------------
-shell>gunzip File-BOM-CheckAddRemove-1.00.tgz
-shell>tar mxvf File-BOM-CheckAddRemove-1.00.tar
+shell>gunzip File-BOM-Utils-1.00.tgz
+shell>tar mxvf File-BOM-Utils-1.00.tar
 
 On Unix-like systems, assuming you have installed Module::Build V 0.25+:
 
@@ -39,11 +39,11 @@ shell>exit            (for Unix-like systems)
 
 On all systems:
 
-Run CheckAddRemove.pm through your favourite pod2html translator.
+Run Utils.pm through your favourite pod2html translator.
 
 2 Installing from an ActiveState distro
 ---------------------------------------
-shell>unzip File-BOM-CheckAddRemove-1.00.zip
-shell>ppm install --location=. File-BOM-CheckAddRemove
-shell>del File-BOM-CheckAddRemove-1.00.ppd
-shell>del PPM-File-BOM-CheckAddRemove-1.00.tar.gz
+shell>unzip File-BOM-Utils-1.00.zip
+shell>ppm install --location=. File-BOM-Utils
+shell>del File-BOM-Utils-1.00.ppd
+shell>del PPM-File-BOM-Utils-1.00.tar.gz

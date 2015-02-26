@@ -26,9 +26,9 @@ EOF
 
 $class -> new
 (
-	module_name    => 'File::BOM::CheckAddRemove',
+	module_name    => 'File::BOM::Utils',
 	license        => 'artistic_2',
-	dist_abstract  => 'Check, Add and Remove BOMs, with file locking',
+	dist_abstract  => 'Check, Add, Remove and Report BOMs',
 	dist_author    => 'Ron Savage <ron@savage.net.au>',
 	build_requires =>
 	{
@@ -41,14 +41,16 @@ $class -> new
 	},
 	requires =>
 	{
-		'Fcntl'    => 0,
-		'strict'   => 0,
-		'warnings' => 0,
+		'File::Slurp'     => 9999.19,
+		'Moo'             => 1.007000,
+		'strict'          => 0,
+		'Types::Standard' => 1.000005,
+		'warnings'        => 0,
 	},
 	resources =>
 	{
-		bugtracker => 'https://rt.cpan.org/Public/Dist/Display.html?Name=File-BOM-CheckAddRemove',
+		bugtracker => 'https://rt.cpan.org/Public/Dist/Display.html?Name=File-BOM-Utils',
 		license    => 'http://opensource.org/licenses/Artistic-2.0',
-		repository => 'https://github.com/ronsavage/File-BOM-CheckAddRemove',
+		repository => 'https://github.com/ronsavage/File-BOM-Utils',
 	},
 ) -> create_build_script();

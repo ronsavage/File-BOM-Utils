@@ -1,10 +1,8 @@
-package File::BOM::CheckAddRemove;
+package File::BOM::Utils;
 
 use strict;
 use warnings;
 use warnings qw(FATAL utf8); # Fatalize encoding glitches.
-
-use Fcntl ':flock';
 
 use File::Slurp; # For read_file() and write_file().
 
@@ -237,7 +235,7 @@ sub report
 
 =head1 NAME
 
-C<File::BOM::CheckAddRemove> - Check, Add and Remove BOMs, with file locking
+C<File::BOM::Utils> - Check, Add and Remove BOMs, with file locking
 
 =head1 Synopsis
 
@@ -246,7 +244,7 @@ This is scripts/synopsis.pl:
 
 =head1 Description
 
-L<File::BOM::CheckAddRemove> provides a L<Marpa::R2>-based parser for extracting delimited text
+L<File::BOM::Utils> provides a L<Marpa::R2>-based parser for extracting delimited text
 sequences from strings. The text outside and inside the delimiters, and delimiters themselves, are
 all stored as nodes in a tree managed by L<Tree>.
 
@@ -313,15 +311,15 @@ for help on unpacking and installing distros.
 
 =head1 Installation
 
-Install L<File::BOM::CheckAddRemove> as you would any C<Perl> module:
+Install L<File::BOM::Utils> as you would any C<Perl> module:
 
 Run:
 
-	cpanm File::BOM::CheckAddRemove
+	cpanm File::BOM::Utils
 
 or run:
 
-	sudo cpan File::BOM::CheckAddRemove
+	sudo cpan File::BOM::Utils
 
 or unpack the distro, and then either:
 
@@ -339,9 +337,9 @@ or:
 
 =head1 Constructor and Initialization
 
-C<new()> is called as C<< my($parser) = File::BOM::CheckAddRemove -> new(k1 => v1, k2 => v2, ...) >>.
+C<new()> is called as C<< my($parser) = File::BOM::Utils -> new(k1 => v1, k2 => v2, ...) >>.
 
-It returns a new object of type C<File::BOM::CheckAddRemove>.
+It returns a new object of type C<File::BOM::Utils>.
 
 Key-value pairs accepted in the parameter list (see corresponding methods for details
 [e.g. L</text([$stringref])>]):
@@ -677,14 +675,14 @@ See scripts/traverse.pl for sample code which processes this tree's nodes.
 
 =head1 FAQ
 
-=head2 What are the differences between File::BOM::CheckAddRemove and Text::Delimited::Marpa?
+=head2 What are the differences between File::BOM::Utils and Text::Delimited::Marpa?
 
 I think this is shown most clearly by getting the 2 modules to process the same string. So,
 using this as input:
 
 	'a <:b <:c:> d:> e <:f <: g <:h:> i:> j:> k'
 
-Output from File::BOM::CheckAddRemove's scripts/tiny.pl:
+Output from File::BOM::Utils's scripts/tiny.pl:
 
 	(#   2) |          1         2         3         4         5         6         7         8         9
 	        |0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
@@ -729,7 +727,7 @@ Output from Text::Delimited::Marpa's scripts/tiny.pl:
 Another example, using the same input string, but manually processing the tree nodes.
 Parent-daughter relationships are here represented by indentation.
 
-Output from File::BOM::CheckAddRemove's scripts/traverse.pl:
+Output from File::BOM::Utils's scripts/traverse.pl:
 
 	        |          1         2         3         4         5
 	        |012345678901234567890123456789012345678901234567890
@@ -842,7 +840,7 @@ closing delimiters are '>' and ':>'. Neat, huh?
 
 Firstly, to make these constants available, you must say:
 
-	use File::BOM::CheckAddRemove ':constants';
+	use File::BOM::Utils ':constants';
 
 Secondly, more detail on errors and warnings can be found at L</error_number()>.
 
@@ -1051,11 +1049,11 @@ L<https://github.com/ronsavage/Text-Balanced-Marpa>
 
 Email the author, or log a bug on RT:
 
-L<https://rt.cpan.org/Public/Dist/Display.html?Name=File::BOM::CheckAddRemove>.
+L<https://rt.cpan.org/Public/Dist/Display.html?Name=File::BOM::Utils>.
 
 =head1 Author
 
-L<File::BOM::CheckAddRemove> was written by Ron Savage I<E<lt>ron@savage.net.auE<gt>> in 2014.
+L<File::BOM::Utils> was written by Ron Savage I<E<lt>ron@savage.net.auE<gt>> in 2014.
 
 Marpa's homepage: L<http://savage.net.au/Marpa.html>.
 
