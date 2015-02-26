@@ -41,11 +41,11 @@ __END__
 
 =head1 NAME
 
-bom.pl - Check, Add and Remove BOMs
+bommer.pl - Check, Add and Remove BOMs
 
 =head1 SYNOPSIS
 
-bom.pl.pl [options]
+bommer.pl [options]
 
 	Options:
 	-action   $string
