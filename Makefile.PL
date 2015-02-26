@@ -30,7 +30,9 @@ my(%params) =
 	PREREQ_PM =>
 	{
 		'File::Slurp'     => 9999.19,
+		'Getopt::Long'    => 0,
 		'Moo'             => 1.007000,
+		'Pod::Usage'      => 0,
 		'strict'          => 0,
 		'Test::More'      => 1.001006,
 #		'Test::Pod'       => 1.45, # Make it optional. See xt/author/pod.t
