@@ -18,5 +18,6 @@ META.yml
 README
 scripts/pod2html.sh
 scripts/synopsis.pl
+t/test.t
 xt/author/changes.t
 xt/author/pod.t
