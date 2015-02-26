@@ -13,7 +13,7 @@ my(%params) =
 	($] ge '5.005') ?
 	(
 		AUTHOR   => 'Ron Savage (ron@savage.net.au)',
-		ABSTRACT => 'Check, Add, Remove and Report BOMs',
+		ABSTRACT => 'Check, Add and Remove BOMs',
 	) : (),
 	clean =>
 	{

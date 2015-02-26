@@ -10,6 +10,14 @@ use Moo;
 
 use Types::Standard qw/Int ScalarRef Str/;
 
+has action =>
+(
+	default  => sub{return ''},
+	is       => 'rw',
+	isa      => Str,
+	required => 1,
+);
+
 has bom_type =>
 (
 	default  => sub{return ''},
@@ -26,7 +34,7 @@ has data =>
 	required => 0,
 );
 
-has input_file_name =>
+has input_file =>
 (
 	default  => sub{return ''},
 	is       => 'rw',
@@ -34,7 +42,7 @@ has input_file_name =>
 	required => 1,
 );
 
-has output_file_name =>
+has output_file =>
 (
 	default  => sub{return ''},
 	is       => 'rw',
@@ -71,16 +79,16 @@ sub add
 	my($self, %opt) = @_;
 
 	$self -> read(%opt);
-	$self -> bom_type($opt{bom_type})                 if (defined $opt{bom_type});
-	$self -> output_file_name($opt{output_file_name}) if (defined $opt{input_file_name});
+	$self -> bom_type($opt{bom_type})       if (defined $opt{bom_type});
+	$self -> output_file($opt{output_file}) if (defined $opt{input_file});
 
-	my($output_file_name) = $self -> output_file_name;
+	my($output_file) = $self -> output_file;
 	my($type)             = $self -> bom_type;
 
 	die "Unknown BOM type: $type\n" if (! $type2bom{$type});
 
-	write_file($output_file_name, {binmode => ':raw'}, $type2bom{$type});
-	write_file($output_file_name, {append => 1, binmode => ':raw'}, $self -> data);
+	write_file($output_file, {binmode => ':raw'}, $type2bom{$type});
+	write_file($output_file, {append => 1, binmode => ':raw'}, $self -> data);
 
 	# Return 0 for success and 1 for failure.
 
@@ -156,6 +164,8 @@ sub file_report
 		value   => $value,
 	};
 
+	return 0;
+
 } # End of file_report.
 
 # ------------------------------------------------
@@ -164,8 +174,8 @@ sub read
 {
 	my($self, %opt) = @_;
 
-	$self -> input_file_name($opt{input_file_name}) if (defined $opt{input_file_name});
-	$self -> data(scalar read_file($self -> input_file_name, bin_mode => ':raw', scalar_ref => 1) );
+	$self -> input_file($opt{input_file}) if (defined $opt{input_file});
+	$self -> data(scalar read_file($self -> input_file, bin_mode => ':raw', scalar_ref => 1) );
 
 	# Return 0 for success and 1 for failure.
 
@@ -182,13 +192,15 @@ sub remove
 
 	if ($$result{type} ne '')
 	{
-		$self -> output_file_name($opt{output_file_name}) if (defined $opt{input_file_name});
+		$self -> output_file($opt{output_file}) if (defined $opt{input_file});
 
-		my($output_file_name) = $self -> output_file_name;
+		die "Output file not specified\n" if (length($self -> output_file) == 0);
+
+		my($output_file) = $self -> output_file;
 
 		substr(${$self -> data}, 0, $$result{length}) = '';
 
-		write_file($output_file_name, {binmode => ':raw'}, $self -> data);
+		write_file($output_file, {binmode => ':raw'}, $self -> data);
 	}
 
 	# Return 0 for success and 1 for failure.
@@ -199,33 +211,68 @@ sub remove
 
 # ------------------------------------------------
 
-sub report
+sub run
 {
-	my($self, $file_name, $heading) = @_;
-	$heading    = $heading ? " ($heading)" : '';
-	my($result) = $self -> file_report(input_file_name => $file_name);
+	my($self, %opt) = @_;
+	my($action)     = lc $self -> action || '';
+	my(%sugar) =
+	(
+		a => 'add',
+		r => 'remove',
+		t => 'test',
+	);
+	$action = $sugar{$action} || $action;
+	my(%action)
+	(
+		add    => 1,
+		remove => 1,
+		test   => 1,
+	);
 
-	print "File report$heading for $file_name: \n";
-	print 'Size: ', -s $file_name, " (bytes) \n";
+	$self -> input_file($opt{input_file}) if (defined $opt{input_file});
+
+	die "Input file not specified\n" if (length($self -> input_file) == 0);
+	die "Unknown action '$action'\n" if (! $action{$action});
+
+	$self -> $action(%opt);
+
+	# Return 0 for success and 1 for failure.
+
+	return 0;
+
+} # End of run.
+
+# ------------------------------------------------
+
+sub test
+{
+	my($self, %opt) = @_;
+	my($result)     = $self -> file_report(%opt);
+	my($file_name)  = $self -> input_file;
+
+	print "BOM report for $file_name: \n";
+	print 'File size: ', -s $file_name, " (bytes) \n";
 
 	for my $key (qw/message type/)
 	{
-		print "$key: $$result{$key}\n";
+		print "\u$key: $$result{$key}\n";
 	}
-
-	print "BOM report: \n";
 
 	if ($$result{type})
 	{
 		my($stats) = $self -> bom_report(bom_type => $$result{type});
 
-		for my $key (qw/length type/)
+		for my $key (qw/length/)
 		{
-			print "$key: $$stats{$key}\n";
+			print "\u$key: $$stats{$key}\n";
 		}
 	}
 
-} # End of report.
+	# Return 0 for success and 1 for failure.
+
+	return 0;
+
+} # End of test.
 
 # ------------------------------------------------
 
@@ -235,7 +282,7 @@ sub report
 
 =head1 NAME
 
-C<File::BOM::Utils> - Check, Add and Remove BOMs, with file locking
+C<File::BOM::Utils> - Check, Add and Remove BOMs
 
 =head1 Synopsis
 

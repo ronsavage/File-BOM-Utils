@@ -1,73 +1,16 @@
 #!/usr/bin/env perl
-#
-# Name:
-#	update.version.pl.
-#
-# Purpose:
-#	Update the version number in all *.pm files in a dir structure.
-#
-# Parameters:
-#	o Version number
-#	o Starting directory
 
 use strict;
 use warnings;
+use warnings qw(FATAL utf8); # Fatalize encoding glitches.
 
-use File::Find;
+use File::BOM::Utils;
+
 use Getopt::Long;
+
 use Pod::Usage;
 
-my($count, $directory, $version);
-
-# -----------------------------------------------
-
-sub found
-{
-	return if ($File::Find::name !~ /\.pm$/);
-
-	open(INX, $_) || die("Can't open($File::Find::name): $!");
-	my(@line) = <INX>;
-	close INX;
-
-	my($found) = 0;
-
-	my($line);
-
-	# This code does not handle the case where the VERSION line is missing.
-	# Also, if there are multiple packages in a file, it assumes they either
-	# all have a version number, or all don't have one.
-
-	for (@line)
-	{
-		if (/^(our\s+\$VERSION\s+=\s+')(.+)('.+)$/)
-		{
-			$found	= 1;
-			$_		= "$1$version$3\n";
-		}
-		elsif (/^(\$(?:\w+::){1,}VERSION\s*=\s*')(?:\d.+)(';)$/)
-		{
-			$found	= 1;
-			$_		= "$1$version$2\n";
-		}
-	}
-
-	if ($found)
-	{
-		$count++;
-
-		open(OUT, "> $_") || die("Can't open(> $File::Find::name): $!");
-		print OUT @line;
-		close OUT;
-	}
-	elsif ($line[0] !~ /::Schema/)
-	{
-		print "$File::Find::name. \n";
-		print "Error: Version line not found. \n";
-	}
-
-}	# End of found.
-
-# -----------------------------------------------
+# ------------------------------------------------
 
 my($option_parser) = Getopt::Long::Parser -> new();
 
@@ -75,23 +18,17 @@ my(%option);
 
 if ($option_parser -> getoptions
 (
- \%option,
- 'directory=s',
- 'help',
- 'version=s',
+	\%option,
+	'action=s',
+	'bom_type=s',
+	'help',
+	'input_file=s',
+	'output_file=s',
 ) )
 {
-	pod2usage(1) if ($option{'help'} || ! ($option{'directory'} && $option{'version'}) );
+	pod2usage(1) if ($option{'help'});
 
-	$count		= 0;
-	$version	= $option{'version'};
-	$directory	= $option{'directory'};
-
-	find(\&found, $directory);
-
-	print "$count files' version numbers updated to $version in $directory. \n";
-
-	exit;
+	exit File::BOM::Utils -> new(%option) -> run;
 }
 else
 {
@@ -104,16 +41,18 @@ __END__
 
 =head1 NAME
 
-update.version.pl - Update all *.pm files in a directory with a new version number.
+bom.pl - Check, Add and Remove BOMs
 
 =head1 SYNOPSIS
 
-update.version.pl [options]
+bom.pl.pl [options]
 
 	Options:
-	-directory directoryName
+	-action   $string
+	-bom_type $string
 	-help
-	-version versionNumber
+	-input_file  $file_name
+	-output_file $file_name
 
 All switches can be reduced to a single letter.
 
@@ -123,17 +62,51 @@ Exit value: 0.
 
 =over 4
 
-=item -directory directoryName
+=item -action $string
 
-The directory to process.
+Specify the action wanted:
+
+=over 4
+
+=item o add
+
+Add the BOM named with the bom_type option to input_file.
+Write the result to output_file.
+
+=item o remove
+
+Remove the BOM from the input_file. Write the result to output_file.
+
+=item o test
+
+Report the BOM status of input_file.
+
+=back
+
+Default: ''.
+
+This option is mandatory.
 
 =item -help
 
 Print help and exit.
 
-=item -version versionNumber
+=item -input_file $file_name
 
-The version number to process, in 1.00 format.
+Specify the input file.
+
+Default: ''.
+
+This option is mandatory.
+
+=item -output_file $file_name
+
+Specify the output file.
+
+And yes, it can be the same as the input file, but does not default to the input file.
+That would be dangerous.
+
+Default: ''.
 
 =back
 

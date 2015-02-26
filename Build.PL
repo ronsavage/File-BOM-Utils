@@ -28,7 +28,7 @@ $class -> new
 (
 	module_name    => 'File::BOM::Utils',
 	license        => 'artistic_2',
-	dist_abstract  => 'Check, Add, Remove and Report BOMs',
+	dist_abstract  => 'Check, Add and Remove BOMs',
 	dist_author    => 'Ron Savage <ron@savage.net.au>',
 	build_requires =>
 	{
