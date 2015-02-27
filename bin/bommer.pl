@@ -20,7 +20,7 @@ if ($option_parser -> getoptions
 (
 	\%option,
 	'action=s',
-	'bom_type=s',
+	'bom_name=s',
 	'help',
 	'input_file=s',
 	'output_file=s',
@@ -49,7 +49,7 @@ bommer.pl [options]
 
 	Options:
 	-action   $string
-	-bom_type $string
+	-bom_name $string
 	-help
 	-input_file  $file_name
 	-output_file $file_name
@@ -70,7 +70,7 @@ Specify the action wanted:
 
 =item o add
 
-Add the BOM named with the bom_type option to input_file.
+Add the BOM named with the bom_name option to input_file.
 Write the result to output_file.
 
 =item o remove

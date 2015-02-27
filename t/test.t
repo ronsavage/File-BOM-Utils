@@ -18,37 +18,37 @@ my(%expect) =
 	{
 		length  => 0,
 		message => 'No BOM found',
-		type    => '',
+		name    => '',
 	},
 	'bom-UTF-16-BE.xml' =>
 	{
 		length  => 2,
-		message => 'BOM type UTF-16-BE found',
-		type    => 'UTF-16-BE',
+		message => 'BOM name UTF-16-BE found',
+		name    => 'UTF-16-BE',
 	},
 	'bom-UTF-16-LE.xml' =>
 	{
 		length  => 2,
-		message => 'BOM type UTF-16-LE found',
-		type    => 'UTF-16-LE',
+		message => 'BOM name UTF-16-LE found',
+		name    => 'UTF-16-LE',
 	},
 	'bom-UTF-32-BE.xml' =>
 	{
 		length  => 4,
-		message => 'BOM type UTF-32-BE found',
-		type    => 'UTF-32-BE',
+		message => 'BOM name UTF-32-BE found',
+		name    => 'UTF-32-BE',
 	},
 	'bom-UTF-32-LE.xml' =>
 	{
 		length  => 4,
-		message => 'BOM type UTF-32-LE found',
-		type    => 'UTF-32-LE',
+		message => 'BOM name UTF-32-LE found',
+		name    => 'UTF-32-LE',
 	},
 	'bom-UTF-8.xml' =>
 	{
 		length  => 3,
-		message => 'BOM type UTF-8 found',
-		type    => 'UTF-8',
+		message => 'BOM name UTF-8 found',
+		name    => 'UTF-8',
 	},
 );
 my($bommer) = File::BOM::Utils -> new;
@@ -64,7 +64,7 @@ for my $path (read_dir('data') )
 	$report = $bommer -> file_report;
 
 	ok($$report{message} eq $expect{$path}{message}, "Message '$$report{message}'"); $count++;
-	ok($$report{type}    eq $expect{$path}{type},    "Type '$$report{type}'");       $count++;
+	ok($$report{name}    eq $expect{$path}{name},    "name '$$report{name}'");       $count++;
 	ok($$report{length}  == $expect{$path}{length},  "Length '$$report{length}'");   $count++;
 }
 
