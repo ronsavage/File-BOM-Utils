@@ -320,6 +320,8 @@ L<File::BOM::Utils> provides a means of testing, adding and removing BOMs from f
 It also provides 2 'our' hashes, i.e. accessible from outside the module, which
 convert in both directions between BOM names and values. See the L</FAQ> for details.
 
+These hashes are called C<%bom2name> and C<%name2bom>.
+
 See also bin/bommer.pl, which is installed automatically when the module is installed.
 
 =head1 Distributions
@@ -612,6 +614,20 @@ C<%opt> may contain these (key => value) pairs:
 =back
 
 =head1 FAQ
+
+=head2 How does this module read and write files?
+
+It uses L<File::Slurp>.
+
+=head2 What are the hashes accessible from outside the module?
+
+They are called C<%bom2name> and C<%name2bom>.
+
+The BOM names used are listed under L</Constructor and Initialization>.
+
+=head2 Which program is installed when the module is installed?
+
+It is called C<bommer.pl>. Run it with the -h option, to list command line switches.
 
 =head1 See Also
 
