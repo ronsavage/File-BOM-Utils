@@ -719,6 +719,8 @@ L<String::BOM>.
 
 L<PPI::Token::BOM>.
 
+L<File::BOM>.
+
 L<XML::Tiny>, whose test data I've adopted.
 
 =head1 Machine-Readable Change Log
