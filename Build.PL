@@ -57,4 +57,5 @@ $class -> new
 		license    => 'http://opensource.org/licenses/Artistic-2.0',
 		repository => 'https://github.com/ronsavage/File-BOM-Utils',
 	},
+	script_files => ['bin/bommer.pl'],
 ) -> create_build_script();

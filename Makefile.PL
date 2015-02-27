@@ -25,6 +25,7 @@ my(%params) =
 		SUFFIX   => 'gz'
 	},
 	DISTNAME  => 'File-BOM-Utils',
+	EXE_FILES => ['bin/bommer.pl'],
 	NAME      => 'File::BOM::Utils',
 	PL_FILES  => {},
 	PREREQ_PM =>
