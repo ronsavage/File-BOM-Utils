@@ -249,7 +249,7 @@ sub test
 	my($file_name)  = $self -> input_file;
 
 	print "BOM report for $file_name: \n";
-	print 'File size: ', -s $file_name, " (bytes) \n";
+	print 'File size: ', -s $file_name, " bytes \n";
 
 	for my $key (qw/message name/)
 	{
@@ -260,10 +260,7 @@ sub test
 	{
 		my($stats) = $self -> bom_report(bom_name => $$result{name});
 
-		for my $key (qw/length/)
-		{
-			print "\u$key: $$stats{$key}\n";
-		}
+		print "Length: $$stats{length} bytes \n";
 	}
 
 	# Return 0 for success and 1 for failure.
