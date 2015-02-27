@@ -191,18 +191,15 @@ sub remove
 	my($self, %opt) = @_;
 	my($result)     = $self -> file_report(%opt);
 
-	if ($$result{name} ne '')
-	{
-		$self -> output_file($opt{output_file}) if (defined $opt{input_file});
+	$self -> output_file($opt{output_file}) if (defined $opt{input_file});
 
-		die "Output file not specified\n" if (length($self -> output_file) == 0);
+	die "Output file not specified\n" if (length($self -> output_file) == 0);
 
-		my($output_file) = $self -> output_file;
+	my($output_file) = $self -> output_file;
 
-		substr(${$self -> data}, 0, $$result{length}) = '';
+	substr(${$self -> data}, 0, $$result{length}) = '';
 
-		write_file($output_file, {binmode => ':raw'}, $self -> data);
-	}
+	write_file($output_file, {binmode => ':raw'}, $self -> data);
 
 	# Return 0 for success and 1 for failure.
 
@@ -310,19 +307,17 @@ This is scripts/synopsis.pl:
 	print "BOM report for $file_name: \n";
 	print join("\n", map{"$_: $$report{$_}"} sort keys %$report), "\n";
 
-	Also, run bin/bommer.pl -h
-	It is installed automatically when the module is installed.
+Try 'bommer.pl -h'. It is installed automatically when the module is installed.
 
 =head1 Description
 
-L<File::BOM::Utils> provides a means of testing, adding and removing BOMs from files.
+L<File::BOM::Utils> provides a means of testing, adding and removing BOMs (Byte-Order-Marks)
+within files.
 
-It also provides 2 'our' hashes, i.e. accessible from outside the module, which
-convert in both directions between BOM names and values. See the L</FAQ> for details.
+It also provides two hashes accessible from outside the module, which convert in both directions
+between BOM names and values. These hashes are called C<%bom2name> and C<%name2bom>.
 
-These hashes are called C<%bom2name> and C<%name2bom>.
-
-See also bin/bommer.pl, which is installed automatically when the module is installed.
+See also bommer.pl, which is installed automatically when the module is installed.
 
 =head1 Distributions
 
@@ -364,7 +359,11 @@ C<new()> is called as C<< my($parser) = File::BOM::Utils -> new(k1 => v1, k2 => 
 It returns a new object of type C<File::BOM::Utils>.
 
 Key-value pairs accepted in the parameter list (see corresponding methods for details
-[e.g. L</text([$stringref])>]):
+[e.g. L</action([$string])>]):
+
+=over 4
+
+=item o action => $string
 
 Specify the action wanted:
 
@@ -372,16 +371,22 @@ Specify the action wanted:
 
 =item o add
 
-Add the BOM named with the bom_name option to C<input_file>.
+Add the BOM named with the C<bom_name> option to C<input_file>.
 Write the result to C<output_file>.
 
 =item o remove
 
-Remove the BOM from the C<input_file>. Write the result to C<output_file>.
+Remove any BOM found from the C<input_file>. Write the result to C<output_file>.
+
+The output is created even if the input file has no BOM, in order to not violate the
+L<Principle of Least Surprise|https://en.wikipedia.org/wiki/Principle_of_least_astonishment>.
 
 =item o test
 
-Report the BOM status of C<input_file>.
+Print the BOM status of C<input_file>.
+
+The methods L</bom_report([%opt])> and L</file_report([%opt])> return hashrefs if you wish to
+avoid printed output.
 
 =back
 
@@ -395,6 +400,8 @@ C<test> is called C<test> and not C<report>.
 =item o bom_name => $string
 
 Specify which BOM to add to C<input_file>.
+
+This option is mandatory if the C<action> is C<add>.
 
 Values (in any case):
 
@@ -418,7 +425,7 @@ Note: These names are taken from the test data for L<XML::Tiny>.
 
 =item o input_file => $string
 
-Specify the name of the input file. It is read in ':raw' mode.
+Specify the name of the input file. It is read in C<:raw> mode.
 
 A value for this option is mandatory.
 
@@ -426,11 +433,13 @@ Default: ''.
 
 =item o output_file => $string
 
-Specify the name of the output file for when the action is 'add' or 'remove'.
- It is written in ':raw' mode.
+Specify the name of the output file for when the action is C<add> or C<remove>.
+It is written in C<:raw> mode.
 
 And yes, it can be the same as the input file, but does not default to the input file.
 That would be dangerous.
+
+This option is mandatory if the C<action> is C<add> or C<remove>.
 
 Default: ''.
 
@@ -442,22 +451,30 @@ Default: ''.
 
 Here, the [] indicate an optional parameter.
 
-Get or set the action.
+Gets or sets the action name, as a string.
 
 If you supplied an abbreviated (1st letter only) version of the action, the return value is the
 full name of the action.
+
+C<action> is a parameter to L</new([%opt])>.
 
 =head2 add([%opt])
 
 Here, the [] indicate an optional parameter.
 
-Add a named BOM to the input file, and write the result to the output_file.
+Adds a named BOM to the input file, and writes the result to the output file.
+
+Returns 0.
 
 C<%opt> may contain these (key => value) pairs:
 
 =over 4
 
 =item o bom_name => $string
+
+The name of the BOM.
+
+The names are listed above, under L</Constructor and Initialization>.
 
 =item o input_file => $string
 
@@ -469,15 +486,19 @@ C<%opt> may contain these (key => value) pairs:
 
 Here, the [] indicate an optional parameter.
 
-Get or set the name of the BOM to add to the input file as that file is copied to the output file.
+Gets or sets the name of the BOM to add to the input file as that file is copied to the output file.
 
-The values are listed above, under L</Constructor and Initialization>.
+The names are listed above, under L</Constructor and Initialization>.
+
+C<bom_name> is a parameter to L</new([%opt])>.
 
 =head2 bom_report([%opt])
 
 Here, the [] indicate an optional parameter.
 
-<%opt> may contain these (key => value) pairs:
+Returns a hashref of statitics about the named BOM.
+
+C<%opt> may contain these (key => value) pairs:
 
 =over 4
 
@@ -485,7 +506,7 @@ Here, the [] indicate an optional parameter.
 
 =back
 
-Return a hashref of statitics about the named BOM:
+The hashref returned has these (key => value) pairs:
 
 =over 4
 
@@ -497,13 +518,15 @@ The # of bytes in the BOM.
 
 The name of the BOM.
 
+The names are listed above, under L</Constructor and Initialization>.
+
 =item o value => $integer
 
 The value of the named BOM.
 
 =back
 
-=head bom_values()
+=head2 bom_values()
 
 Returns an array of BOM values, sorted from longest to shortest.
 
@@ -516,7 +539,9 @@ empty string.
 
 Here, the [] indicate an optional parameter.
 
-<%opt> may contain these (key => value) pairs:
+Returns a hashref of statistics about the input file.
+
+C<%opt> may contain these (key => value) pairs:
 
 =over 4
 
@@ -524,7 +549,7 @@ Here, the [] indicate an optional parameter.
 
 =back
 
-Returns a hashref of statistics about the input file:
+The hashref returned has these (key => value) pairs:
 
 =over 4
 
@@ -536,7 +561,9 @@ This is the length of the BOM in bytes.
 
 =item o name => $name || '',
 
-This is the name of the BOM.
+The name of the BOM.
+
+The names are listed above, under L</Constructor and Initialization>.
 
 =item o value => $value || 0,
 
@@ -546,22 +573,56 @@ This is the value of the BOM.
 
 =head2 input_file([$string])
 
-Get or set the name of the input file.
+Here, the [] indicate an optional parameter.
+
+Gets or sets the name of the input file.
+
+C<input_file> is a parameter to L</new([%opt])>.
+
+=head2 new([%opt])
+
+Here, the [] indicate an optional parameter.
+
+Returns an object of type C<File::BOM::Utils>.
+
+C<%opt> may contain these (key => value) pairs:
+
+=over 4
+
+=item o action => $string
+
+The action wanted.
+
+The actions are listed above, under L</Constructor and Initialization>.
+
+=item o bom_name => $string
+
+The name of the BOM.
+
+The names are listed above, under L</Constructor and Initialization>.
+
+=item o input_file => $string
+
+=item o output_file => $string
+
+=back
 
 =head2 output_file([$string])
 
 Here, the [] indicate an optional parameter.
 
-Get or set the name of the output file.
+Gets or sets the name of the output file.
 
 And yes, it can be the same as the input file, but does not default to the input file.
 That would be dangerous.
+
+C<output_file> is a parameter to L</new([%opt])>.
 
 =head2 remove(%opt)
 
 Here, the [] indicate an optional parameter.
 
-Remove any BOM from the input file, and write the result to the output_file.
+Removes any BOM from the input file, and writes the result to the output_file.
 
 C<%opt> may contain these (key => value) pairs:
 
@@ -582,22 +643,29 @@ This is the only method users would normally call, but you can call directly any
 
 C<%opt> is passed to L</add([%opt]>, L</remove([%opt])> and L</test([%opt])>.
 
+Returns 0.
+
 C<%opt> may contain these (key => value) pairs:
 
 =over 4
 
 =item o action => $string
 
+The action wanted.
+
+The actions are listed above, under L</Constructor and Initialization>.
+
 =item o bom_name => $string
+
+The name of the BOM.
+
+The names are listed above, under L</Constructor and Initialization>.
 
 =item o input_file => $string
 
 =item o output_file => $string
 
 =back
-
-Note: As syntactic sugar, you may specify just the 1st letter of the action. And that's why
-C<test> is called C<test> and not C<report>.
 
 =head1 test([%opt])
 
@@ -627,7 +695,26 @@ The BOM names used are listed under L</Constructor and Initialization>.
 
 =head2 Which program is installed when the module is installed?
 
-It is called C<bommer.pl>. Run it with the -h option, to list command line switches.
+It is called C<bommer.pl>. Run it with the -h option, to display help.
+
+=head2 How is the parameter %opt, which may be passed to many methods, handled?
+
+The keys in C<%opt> are used to find values which are passed to the methods named after the
+keys.
+
+For instance, if you call:
+
+	my($bommer) = File::BOM::Utils -> new(action => 'add');
+
+	$bommer -> run(action => 'test');
+
+Then the code calls C<action('test')>, which sets the 'current' value of C<action> to C<test>.
+
+This means that if you later call C<action()>, the value returned is whatever was the most recent
+value provided (to any method) in C<$opt{action}>. Similarly for the other parameters to L</new([%opt])>.
+
+Note: As syntactic sugar, you may specify just the 1st letter of the action. And that's why
+C<test> is called C<test> and not C<report>.
 
 =head1 See Also
 
