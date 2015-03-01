@@ -743,7 +743,7 @@ L<https://rt.cpan.org/Public/Dist/Display.html?Name=File::BOM::Utils>.
 
 =head1 Author
 
-L<File::BOM::Utils> was written by Ron Savage I<E<lt>ron@savage.net.auE<gt>> in 2014.
+L<File::BOM::Utils> was written by Ron Savage I<E<lt>ron@savage.net.auE<gt>> in 2015.
 
 Marpa's homepage: L<http://savage.net.au/Marpa.html>.
 
@@ -751,7 +751,7 @@ My homepage: L<http://savage.net.au/>.
 
 =head1 Copyright
 
-Australian copyright (c) 2014, Ron Savage.
+Australian copyright (c) 2015, Ron Savage.
 
 	All Programs of mine are 'OSI Certified Open Source Software';
 	you can redistribute them and/or modify them under the terms of
