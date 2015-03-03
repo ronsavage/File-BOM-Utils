@@ -32,30 +32,30 @@ $class -> new
 	dist_author    => 'Ron Savage <ron@savage.net.au>',
 	build_requires =>
 	{
-		'Test::More' => 1.001006,
-# 	 	'Test::Pod'  => 1.45, # Make it optional. See xt/author/pod.t.
+		'Test::More' => 1.001014,
+		'Test::Pod' => 1.48,
 	},
 	configure_requires =>
 	{
-		'Module::Build' => 0.4210,
+		'Module::Build' => 0.4211,
 	},
 	requires =>
 	{
-		'File::Slurp'     => 9999.19,
-		'File::Spec'      => 0,
-		'Getopt::Long'    => 0,
-		'Moo'             => 1.007000,
-		'Pod::Usage'      => 0,
-		'strict'          => 0,
+		'File::Slurp' => 9999.19,
+		'File::Spec' => 0,
+		'Getopt::Long' => 0,
+		'Moo' => 1.007000,
+		'Pod::Usage' => 0,
+		'strict' => 0,
 		'Types::Standard' => 1.000005,
-		'utf8'            => 0,
-		'warnings'        => 0,
+		'utf8' => 0,
+		'warnings' => 0,
 	},
 	resources =>
 	{
-		bugtracker => 'https://rt.cpan.org/Public/Dist/Display.html?Name=File-BOM-Utils',
-		license    => 'http://opensource.org/licenses/Artistic-2.0',
-		repository => 'https://github.com/ronsavage/File-BOM-Utils',
+		'bugtracker' => 'https://rt.cpan.org/Public/Dist/Display.html?Name=File-BOM-Utils',
+		'license' => 'http://opensource.org/licenses/Artistic-2.0',
+		'repository' => 'https://github.com/ronsavage/File-BOM-Utils',
 	},
-	script_files => ['bin/bommer.pl'],
+		'script_files' => ['bin/bommer.pl'],
 ) -> create_build_script();
