@@ -550,19 +550,19 @@ The hashref returned has these (key => value) pairs:
 
 =over 4
 
-=item o length => $name ? $length : 0,
+=item o length => $name ? $length : 0
 
 This is the length of the BOM in bytes.
 
-=item o message => $name ? "BOM name $name found" : 'No BOM found',
+=item o message => $name ? "BOM name $name found" : 'No BOM found'
 
-=item o name => $name || '',
+=item o name => $name || ''
 
 The name of the BOM.
 
 The names are listed above, under L</Constructor and Initialization>.
 
-=item o value => $value || 0,
+=item o value => $value || 0
 
 This is the value of the BOM.
 
