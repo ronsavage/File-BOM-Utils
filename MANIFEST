@@ -1,6 +1,5 @@
 .gitignore
 bin/bommer.pl
-Build.PL
 Changelog.ini
 Changes
 data/bom-less.xml

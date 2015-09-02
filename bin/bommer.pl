@@ -87,6 +87,28 @@ Default: ''.
 
 This option is mandatory.
 
+=item -bom_name => $string
+
+Specify which BOM to add to C<input_file>.
+
+This option is mandatory if the C<action> is C<add>.
+
+Values (always upper-case):
+
+=over 4
+
+=item o UTF-32-BE
+
+=item o UTF-32-LE
+
+=item o UTF-16-BE
+
+=item o UTF-16-LE
+
+=item o UTF-8
+
+=back
+
 =item -help
 
 Print help and exit.

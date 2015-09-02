@@ -30,7 +30,7 @@ my(%params) =
 	PL_FILES  => {},
 	PREREQ_PM =>
 	{
-		'File::Slurp' => 9999.19,
+		'File::Slurper' => 0.008,
 		'File::Spec' => 0,
 		'Getopt::Long' => 0,
 		'Moo' => 1.007000,

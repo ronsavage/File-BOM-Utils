@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use warnings qw(FATAL utf8); # Fatalize encoding glitches.
 
-use File::Slurp; # For read_file() and write_file().
+use File::Slurper qw/read_binary write_binary/;
 
 use Moo;
 
@@ -70,7 +70,7 @@ our(%name2bom) =
 	'UTF-8'     => "\xef\xbb\xbf",
 );
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 # ------------------------------------------------
 
@@ -87,8 +87,7 @@ sub add
 
 	die "Unknown BOM name: $name\n" if (! $name2bom{$name});
 
-	write_file($output_file, {binmode => ':raw'}, $name2bom{$name});
-	write_file($output_file, {append => 1, binmode => ':raw'}, $self -> data);
+	write_text($output_file, $name2bom{$name} . ${self -> data}, $name2bom{$name});
 
 	# Return 0 for success and 1 for failure.
 
@@ -176,7 +175,7 @@ sub _read
 	my($self, %opt) = @_;
 
 	$self -> input_file($opt{input_file}) if (defined $opt{input_file});
-	$self -> data(scalar read_file($self -> input_file, bin_mode => ':raw', scalar_ref => 1) );
+	$self -> data(\read_binary($self -> input_file) );
 
 	# Return 0 for success and 1 for failure.
 
@@ -199,7 +198,7 @@ sub remove
 
 	substr(${$self -> data}, 0, $$result{length}) = '';
 
-	write_file($output_file, {binmode => ':raw'}, $self -> data);
+	write_file($output_file, {binmode => ':raw'}, ${$self -> data});
 
 	# Return 0 for success and 1 for failure.
 
@@ -251,9 +250,13 @@ sub test
 	print "BOM report for $file_name: \n";
 	print 'File size: ', -s $file_name, " bytes \n";
 
+	my($prefix);
+
 	for my $key (qw/message name/)
 	{
-		print "\u$key: $$result{$key}\n";
+		$prefix = ($key eq 'message') ? 'Message' : 'BOM name';
+
+		print "$prefix: $$result{$key}\n";
 	}
 
 	if ($$result{name})
@@ -400,7 +403,7 @@ Specify which BOM to add to C<input_file>.
 
 This option is mandatory if the C<action> is C<add>.
 
-Values (in any case):
+Values (always upper-case):
 
 =over 4
 

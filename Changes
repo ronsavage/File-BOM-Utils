@@ -1,4 +1,11 @@
 Revision history for Perl extension File::BOM::Utils.
 
+1.01  2015-09-02 17:40:00
+	- Fix docs in Util.pm which wrongly said lower-case bom names were ok.
+	- Fix docs in bommer.pl for the same reason.
+	- Change output of test() method slightly, so 'Name' now says 'BOM name'.
+	- Remove Build.PL.
+	- Switch pre-req from File::Slurp to File::Slurper.
+
 1.00  2015-06-24 12:09:00
 	- Original version

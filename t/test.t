@@ -4,7 +4,7 @@ use warnings;
 use warnings qw(FATAL utf8); # Fatalize encoding glitches.
 
 use File::BOM::Utils;
-use File::Slurp; # For read_dir().
+use File::Slurper 'read_dir';
 use File::Spec;
 
 use Test::More;
