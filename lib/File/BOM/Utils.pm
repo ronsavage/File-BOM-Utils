@@ -87,7 +87,7 @@ sub add
 
 	die "Unknown BOM name: $name\n" if (! $name2bom{$name});
 
-	write_text($output_file, $name2bom{$name} . ${$self -> data}, $name2bom{$name});
+	write_text($output_file, $name2bom{$name} . ${$self -> data}, $name);
 
 	# Return 0 for success and 1 for failure.
 
