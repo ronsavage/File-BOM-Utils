@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use warnings qw(FATAL utf8); # Fatalize encoding glitches.
 
-use File::Slurper qw/read_binary write_text/;
+use File::Slurper qw/read_binary write_binary/;
 
 use Moo;
 
@@ -87,7 +87,9 @@ sub add
 
 	die "Unknown BOM name: $name\n" if (! $name2bom{$name});
 
-	write_text($output_file, $name2bom{$name} . ${$self -> data}, $name);
+	write_binary($output_file, $name2bom{$name} . ${$self -> data});
+
+	print "Name of BOM to add: $name. Length: ", length($name2bom{$name}, ". \n";
 
 	# Return 0 for success and 1 for failure.
 
