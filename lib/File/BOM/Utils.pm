@@ -70,7 +70,7 @@ our(%name2bom) =
 	'UTF-8'     => "\xef\xbb\xbf",
 );
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 
 # ------------------------------------------------
 
@@ -87,7 +87,7 @@ sub add
 
 	die "Unknown BOM name: $name\n" if (! $name2bom{$name});
 
-	write_text($output_file, $name2bom{$name} . ${self -> data}, $name2bom{$name});
+	write_text($output_file, $name2bom{$name} . ${$self -> data}, $name2bom{$name});
 
 	# Return 0 for success and 1 for failure.
 

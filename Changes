@@ -1,5 +1,8 @@
 Revision history for Perl extension File::BOM::Utils.
 
+1.02  2015-09-06 16:01:00
+	- Fix typo causing syntax error.
+
 1.01  2015-09-02 17:40:00
 	- Fix docs in Util.pm which wrongly said lower-case bom names were ok.
 	- Fix docs in bommer.pl for the same reason.
