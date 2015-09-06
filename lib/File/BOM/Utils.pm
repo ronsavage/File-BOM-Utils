@@ -685,7 +685,7 @@ C<%opt> may contain these (key => value) pairs:
 
 =head2 How does this module read and write files?
 
-It uses L<File::Slurp>.
+It uses L<File::Slurper>'s read_binary() and write_binary().
 
 =head2 What are the hashes accessible from outside the module?
 
@@ -711,10 +711,16 @@ For instance, if you call:
 Then the code calls C<action('test')>, which sets the 'current' value of C<action> to C<test>.
 
 This means that if you later call C<action()>, the value returned is whatever was the most recent
-value provided (to any method) in C<$opt{action}>. Similarly for the other parameters to L</new([%opt])>.
+value provided (to any method) in C<$opt{action}>. Similarly for the other parameters to
+L</new([%opt])>.
 
 Note: As syntactic sugar, you may specify just the 1st letter of the action. And that's why
 C<test> is called C<test> and not C<report>.
+
+=head2 What happens if I add the same BOM twice?
+
+The program will do as you order it to do. Hopefully, you remove one or both of the BOMs immediately
+after testing the output.
 
 =head1 See Also
 
@@ -725,6 +731,8 @@ L<PPI::Token::BOM>.
 L<File::BOM>.
 
 L<XML::Tiny>, whose test data I've adopted.
+
+L<File::Slurper>.
 
 =head1 Machine-Readable Change Log
 
