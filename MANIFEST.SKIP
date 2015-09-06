@@ -2,6 +2,7 @@
 ,v$
 \B\.cvsignore$
 \B\.git\b
+.gitignore
 \B\.svn\b
 \bCVS\b
 \bRCS\b
