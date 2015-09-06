@@ -89,8 +89,6 @@ sub add
 
 	write_binary($output_file, $name2bom{$name} . ${$self -> data});
 
-	print "Name of BOM to add: $name. Length: ", length($name2bom{$name}), ". \n";
-
 	# Return 0 for success and 1 for failure.
 
 	return 0;
@@ -200,7 +198,7 @@ sub remove
 
 	substr(${$self -> data}, 0, $$result{length}) = '';
 
-	write_file($output_file, {binmode => ':raw'}, ${$self -> data});
+	write_binary($output_file, ${$self -> data});
 
 	# Return 0 for success and 1 for failure.
 
