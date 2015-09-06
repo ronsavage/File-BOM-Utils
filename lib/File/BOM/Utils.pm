@@ -89,7 +89,7 @@ sub add
 
 	write_binary($output_file, $name2bom{$name} . ${$self -> data});
 
-	print "Name of BOM to add: $name. Length: ", length($name2bom{$name}, ". \n";
+	print "Name of BOM to add: $name. Length: ", length($name2bom{$name}), ". \n";
 
 	# Return 0 for success and 1 for failure.
 
