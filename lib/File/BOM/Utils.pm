@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use warnings qw(FATAL utf8); # Fatalize encoding glitches.
 
-use File::Slurper qw/read_binary write_binary/;
+use File::Slurper qw/read_binary write_text/;
 
 use Moo;
 
