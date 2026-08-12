@@ -280,7 +280,7 @@ sub test
 
 =head1 NAME
 
-C<File::BOM::Utils> - Check, Add and Remove BOMs
+File::BOM::Utils - Check, Add and Remove BOMs
 
 =head1 Synopsis
 
